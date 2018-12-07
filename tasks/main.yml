@@ -250,7 +250,4 @@
   failed_when: check_result.status == -1
   when: ( verify_initialized_result.json.initialized == true)
 
-- debug:
-    msg: "The vault is sealed but operational {{check_result.msg }}"
-  when: check_result.json.sealed == true
 
