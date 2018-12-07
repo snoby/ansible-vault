@@ -1,3 +1,22 @@
+## v2.1.0
+
+- Vault v1.0.0
+- GCPKMS seal support (thanks @planetrobbie)
+- Update documentation
+
+## v2.0.9
+
+- Correct systemd unit (thanks @jpiron)
+- Add initial telemetry support (thanks @jeffWelling)
+- Vagrant box memory increased to 2048MB
+- Update documentation
+
+## v2.0.8
+
+- Vault v0.11.5
+- Conditional capabilites based on systemd version (thanks @bdossantos)
+- Update documentation
+
 ## v2.0.7
 
 - Vault v0.11.3

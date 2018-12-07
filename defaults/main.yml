@@ -4,7 +4,7 @@
 ## Core
 
 ### Package
-vault_version: "{{ lookup('env','VAULT_VERSION') | default('0.11.3', true) }}{{'+prem' if vault_enterprise_premium else '' }}{{'.hsm' if vault_enterprise_premium_hsm else '' }}"
+vault_version: "{{ lookup('env','VAULT_VERSION') | default('1.0.0', true) }}{{'+prem' if vault_enterprise_premium else '' }}{{'.hsm' if vault_enterprise_premium_hsm else '' }}"
 vault_architecture_map:
   # this first entry seems... redundant (but it's required for reasons)
   amd64: amd64
@@ -129,3 +129,15 @@ vault_seal_key_mechanism: ''
 vault_seal_token_label: ''
 vault_seal_slot: 0
 vault_softcard_enable: false
+vault_telemetry_enabled: false
+
+## Vault Google KMS - auto unseal
+
+vault_gkms: false
+vault_backend_gkms: vault_backend_gkms.j2
+vault_gkms_project: ''
+vault_gkms_credentials_src_file: ''
+vault_gkms_credentials: '/home/vault/vault-kms.json'
+vault_gkms_region: 'global'
+vault_gkms_key_ring: 'vault'
+vault_gkms_crypto_key: 'vault_key'

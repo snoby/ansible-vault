@@ -18,8 +18,8 @@ This role requires FreeBSD, or a Debian or RHEL based Linux distribution. It
 might work with other software versions, but does work with the following
 specific software and versions:
 
-* Ansible: 2.7.0
-* Vault: 0.11.3
+* Ansible: 2.7.2
+* Vault: 1.0.0
 * Debian: 9
 * FreeBSD 11
 * Ubuntu 18.04
@@ -38,7 +38,7 @@ The role defines variables in `defaults/main.yml`:
   - Will include "+prem" if vault_enterprise_premium=True
   - Will include ".hsm" if vault_enterprise_premium_hsm=True
 
-- Default value: *0.11.3*
+- Default value: *1.0.0*
 
 ### `vault_enterprise`
 
@@ -338,7 +338,7 @@ The role defines variables in `defaults/main.yml`:
 - Default value: *no*
 
 ### `vault_bsdinit_template`
-- BSD init template file 
+- BSD init template file
 - Default value: *vault_bsdinit.j2*
 
 ### `vault_sysvinit_template`
@@ -352,6 +352,12 @@ The role defines variables in `defaults/main.yml`:
 ### `vault_systemd_template`
 - Systemd service template file
 - Default value: *vault_systemd.service.j2*
+
+### `vault_telemetry_enabled`
+- Enable [Vault telemetry](https://www.vaultproject.io/docs/configuration/telemetry.html)
+- If enabled, you must set *vault_statsite_address* or *vault_statsd_address* with a format of "FQDN:PORT"
+- If enabled, optionally set *vault_telemetry_disable_hostname* to strip the hostname prefix from telemetry data
+- Default value: *false*
 
 ## OS Distribution Variables
 
@@ -557,7 +563,7 @@ The role can configure HSM based instances. Make sure to reference the [HSM supp
 
 ### `vault_hsm_app`
 
-- Set which cryptography app to use. 
+- Set which cryptography app to use.
 - Default value: *pkcs11*
 
 ### `vault_backend_seal`
@@ -605,6 +611,52 @@ The role can configure HSM based instances. Make sure to reference the [HSM supp
 
 - The slot number to use, specified as a string (e.g. "0"). May also be specified by the VAULT_HSM_SLOT environment variable. This label will only be applied when `vault_softcard_enable` is false (default).
 - Default value: *0*
+
+## Vault GCP Cloud KMS Auto-unseal
+
+This feature enables operators to delegate the unsealing process to Google Key Management System Cloud to ease operations in the event of partial failure and to aid in the creation of new or ephemeral clusters.
+
+This Auto-unseal mechanism is Open Source in Vault 1.0 but would require Enterprise binaries for any earlier version.
+
+### `vault_gkms`
+
+- Set to True to enable Google Cloud KMS Auto-Unseal.
+- Default value: *false*
+
+### `vault_backend_gkms`
+
+- Backend seal template filename
+- Default value: *vault_backend_gkms.j2*
+
+### `vault_gkms_project`
+
+- GCP Project where the key reside.
+- Default value: *''*
+
+### `vault_gkms_credentials_src_file`
+
+- User-specified source directory for GCP Credential on Ansible control node.
+- Default value: *''*
+
+### `vault_gkms_credentials`
+
+- Path to GCP credential on Vault server.
+- Default value: `/home/vault/vault-kms.json`
+
+### `vault_gkms_region`
+
+- GCP Region where the key reside.
+- Default value: *global*
+
+### `vault_gkms_key_ring`
+
+- The id of the Google Cloud Platform KeyRing to which the key shall belong.
+- Default value: *vault*
+
+### `vault_gkms_crypto_key`
+
+- The CryptoKey's name. A CryptoKey's name must be unique within a location and match the regular expression [a-zA-Z0-9_-]{1,63}
+- Default value: *vault_key*
 
 ## License
 
