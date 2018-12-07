@@ -121,10 +121,10 @@ The role defines variables in `defaults/main.yml`:
 - OS group name
 - Default value: *bin*
 
-### `vault_group_name`
+### `vault_manage_group`
+- OS group create Should playbook create the group
+- Default value: _false_
 
-- Inventory group name
-- Default value: `vault_instances`
 
 ### `vault_cluster_name`
 
@@ -427,6 +427,11 @@ differences across distributions:
 - Vault package download URL
 - Default value: `"{{ vault_zip_url }}"`
 
+
+### `vault_auto_initialize`
+- Used to auto initialize a vault instance, this is mainly used for testing
+- Default value: *false*
+
 ### `vault_sha256`
 
 - Vault package SHA256 summary
@@ -503,16 +508,26 @@ See `examples/README_VAGRANT.md` for details on quick Vagrant deployments
 under VirtualBox for testing, etc.
 
 ## example virtualBox playbook
-example playbook for a file based  vault instance.
+
+example playbook for a file based auto intializing single node vault instance.
+
 
 ```
 - hosts: all
   gather_facts: True
   become: true
   vars:
+
+    vault_user: vault
+    vault_group: vault
+    vault_manage_group: True
+    vault_ui: True
+    vault_iface: eth1
     vault_backend: file
     vault_cluster_disable: True
     vault_log_level: debug
+    vault_auto_initialize: True
+
   roles:
     - vault
 

@@ -21,6 +21,10 @@ vault_checksum_file_url: "https://releases.hashicorp.com/vault/{{ vault_version 
 ### Install Method
 vault_install_remotely: false
 
+### Should the system auto initialize the vault
+### Mainly used for testing
+vault_auto_initialize: false
+
 ### Paths
 vault_bin_path: /usr/local/bin
 vault_config_path: /etc/vault.d
@@ -40,7 +44,6 @@ vault_logrotate_freq: 7
 vault_logrotate_template: vault_logrotate.j2
 
 ### Vault settings
-vault_group_name: vault_instances
 vault_cluster_name: dc1
 vault_datacenter: dc1
 vault_log_level: "{{ lookup('env','VAULT_LOG_LEVEL') | default('info', true) }}"
