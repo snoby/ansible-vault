@@ -209,6 +209,8 @@
   when: (vault_auto_initialize | bool) and
         ( check_initialized_result.json.initialized == false) and
         ( init_result.rc == 0 )
+- debug:
+    msg: "Initialized result {{ check_initialized_result.json.initialized }}"
 
   #
   # Recheck initialized status
@@ -225,7 +227,7 @@
     body_format: json
     changed_when: false
   register: verify_initialized_result
-  when: ( check_initialized_result.json.initialized == false)
+  when: ( check_initialized_result.json.initialized == 'False')
 
 
 # This should succeed regardless of seal state
@@ -248,6 +250,6 @@
   delay: 10
   changed_when: false
   failed_when: check_result.status == -1
-  when: ( verify_initialized_result.json.initialized == true)
+  when: ( verify_initialized_result.json.initialized == 'True' )
 
 

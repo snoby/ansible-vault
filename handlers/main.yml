@@ -1,5 +1,7 @@
 ---
 # handlers file for vault
 
+# TODO: Need to have a check here to make sure vault started all right.
+# TODO: Need to do a daemon reload here as well.
 - name: Restart vault
   service: name=vault state=restarted

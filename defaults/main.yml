@@ -48,7 +48,10 @@ vault_cluster_name: dc1
 vault_datacenter: dc1
 vault_log_level: "{{ lookup('env','VAULT_LOG_LEVEL') | default('info', true) }}"
 vault_syslog_enable: true
+
+
 vault_iface: "{{ lookup('env','VAULT_IFACE') | default('eth1', true) }}"
+vault_bind_to_all_interfaces : false
 vault_address: "{{ hostvars[inventory_hostname]['ansible_'+vault_iface]['ipv4']['address'] }}"
 vault_ui: "{{ lookup('env', 'VAULT_UI') | default(false, true) }}"
 
@@ -57,10 +60,28 @@ vault_node_name: "{{ inventory_hostname_short }}"
 vault_main_config: "{{ vault_config_path }}/vault_main.hcl"
 vault_listener_template: vault_listener.hcl.j2
 
+
+### if you are using the mysql backend optionally get the values from the env
+### NOTE: you can't share the mysql database entry, the user must have *.* priviliges
+#
+vault_mysql_user: "{{ lookup('env','VAULT_MYSQL_USER') | default('root', true) }}"
+vault_mysql_password: "{{ lookup('env','VAULT_MYSQL_PASSWORD') | default('root', true) }}"
+vault_mysql_host: "{{ lookup('env','VAULT_MYSQL_HOST') | default('localhost', true) }}"
+vault_mysql_port: "{{ lookup('env','VAULT_MYSQL_PORT') | default('3306', true) }}"
+vault_mysql_database: "{{ lookup('env','VAULT_MYSQL_DATABASE') | default('vault_db', true) }}"
+vault_mysql_table: "{{ lookup('env','VAULT_MYSQL_TABLE') | default('vault', true) }}"
+
+
+
+
+
+
+
 #### Vault storage / backend.
 vault_backend: consul
 vault_backend_consul: vault_backend_consul.j2
 vault_backend_file: vault_backend_file.j2
+vault_backend_mysql: vault_backend_mysql.j2
 
 vault_cluster_disable: false
 vault_cluster_address: "{{ hostvars[inventory_hostname]['ansible_'+vault_iface]['ipv4']['address'] }}:{{ (vault_port | int) + 1}}"
