@@ -22,7 +22,6 @@ ProtectSystem=full
 ProtectHome=read-only
 PrivateTmp=yes
 PrivateDevices=yes
-SecureBits=keep-caps
 {% if systemd_version.stdout | version_compare('230', '>=') %}
 AmbientCapabilities=CAP_SYSLOG CAP_IPC_LOCK
 {% endif %}

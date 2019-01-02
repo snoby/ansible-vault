@@ -1,0 +1,8 @@
+storage "mysql" {
+  username = "{{ vault_mysql_user }}"
+  password = "{{ vault_mysql_password }}"
+  address = "{{ vault_mysql_host }}:{{ vault_mysql_port }}"
+  database = "{{ vault_mysql_database }}"
+  table = "{{ vault_mysql_table }}"
+  #TODO Put in tls_ca_file
+}
